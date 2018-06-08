@@ -3,9 +3,6 @@ using System.Reactive;
 
 namespace Sextant.Abstraction
 {
-    /// <summary>
-    /// Defines a view that be add to a navigation or modal stack.
-    /// </summary>
     public interface IView
     {
         /// <summary>

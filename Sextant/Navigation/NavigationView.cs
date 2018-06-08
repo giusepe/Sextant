@@ -18,6 +18,13 @@ namespace Sextant
         private readonly IViewLocator _viewLocator;
         public IObservable<IPageViewModel> PagePopped => _pagePopped;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NavigationView"/> class.
+        /// </summary>
+        /// <param name="mainScheduler">The main scheduler.</param>
+        /// <param name="backgroundScheduler">The background scheduler.</param>
+        /// <param name="viewLocator">The view locator.</param>
+        /// <param name="rootPage">The root page.</param>
         public NavigationView(IScheduler mainScheduler, IScheduler backgroundScheduler, IViewLocator viewLocator, Page rootPage) : base(rootPage)
         {
             _backgroundScheduler = backgroundScheduler;
@@ -30,6 +37,12 @@ namespace Sextant
                 .WhereNotNull();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NavigationView"/> class.
+        /// </summary>
+        /// <param name="mainScheduler">The main scheduler.</param>
+        /// <param name="backgroundScheduler">The background scheduler.</param>
+        /// <param name="viewLocator">The view locator.</param>
         public NavigationView(IScheduler mainScheduler, IScheduler backgroundScheduler, IViewLocator viewLocator)
         {
             _backgroundScheduler = backgroundScheduler;

@@ -5,7 +5,7 @@ using System.Reactive;
 namespace Sextant.Abstraction
 {
     /// <summary>
-    /// Interface that defines a methods to interact with the navigation stack.
+    /// Interface that defines methods that interact with the navigation stack.
     /// </summary>
     public interface IViewStackService
     {
@@ -61,18 +61,31 @@ namespace Sextant.Abstraction
         /// <param name="resetStack">if set to <c>true</c> [reset stack].</param>
         /// <param name="animate">if set to <c>true</c> [animate].</param>
         /// <returns></returns>
-        IObservable<Unit> PushPage(IPageViewModel page, string contract = null, bool resetStack = false, bool animate = true);
-
-        /// <summary>
-        /// Returns the top page from the current navigation stack.
-        /// </summary>
-        /// <returns></returns>
-        IObservable<IPageViewModel> TopPage();
+        IObservable<Unit> PushPage(IPageViewModel page,
+            string contract = null,
+            bool resetStack = false,
+            bool animate = true);
 
         /// <summary>
         /// Returns the top modal from the current modal stack.
         /// </summary>
         /// <returns></returns>
         IObservable<IPageViewModel> TopModal();
+
+        /// <summary>
+        /// Returns the top page from the current navigation stack.
+        /// </summary>
+        /// <returns></returns>
+        IObservable<IPageViewModel> TopPage();
+    }
+
+    /// <inheritdoc />
+    public interface IViewStackService<out T> : IViewStackService
+        where T : IView
+    {
+        /// <summary>
+        /// Gets the current view on the stack.
+        /// </summary>
+        new T View { get; }
     }
 }

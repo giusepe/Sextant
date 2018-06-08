@@ -102,6 +102,9 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
+# Code Rush
+.cr
+
 # JustCode is a .NET coding add-in
 .JustCode
 
@@ -246,3 +249,6 @@ src/ReactiveUI.Events*/Events_*.cs
 
 src/*.Tests/API/*.received.txt
 .idea/
+
+# dotnet
+.dotnet
