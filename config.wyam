@@ -1,0 +1,7 @@
+Settings[Keys.Host] = "sextant.github.io";
+Settings[Keys.LinksUseHttps] = true;
+Settings[DocsKeys.Title] = "Sextant";
+Settings[DocsKeys.Logo] = "/assets/img/vertical.png";
+Settings[DocsKeys.SourceFiles] = "../release/repo/src/**/{!bin,!obj,!packages,!*.Tests,}/**/*.cs";
+Settings[DocsKeys.BlogAtomPath] = "blog/feed/atom/index.xml";
+Settings[DocsKeys.BlogRssPath] = "blog/feed/rss/index.xml";

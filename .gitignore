@@ -246,3 +246,6 @@ src/ReactiveUI.Events*/Events_*.cs
 
 src/*.Tests/API/*.received.txt
 .idea/
+
+# dotnet
+.dotnet

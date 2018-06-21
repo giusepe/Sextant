@@ -12,11 +12,13 @@ var configuration = Argument("configuration", "Release");
 #tool "GitReleaseManager"
 #tool "GitVersion.CommandLine"
 #tool "GitLink"
+#tool nuget:?package=Wyam&version=1.2.0
 
 //////////////////////////////////////////////////////////////////////
 // ADDINS
 //////////////////////////////////////////////////////////////////////
 #addin nuget:?package=Cake.Incubator&version=2.0.1
+#addin nuget:?package=Cake.Wyam&version=1.2.0
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -27,6 +29,7 @@ var treatWarningsAsErrors = false;
 // Define directories.
 var artifactsDir  = Directory("./artifacts/");
 var rootAbsoluteDir = MakeAbsolute(Directory("./")).FullPath;
+var publishedDocs = Directory("./artifacts/_PublishedDocumentation");
 
 var local = BuildSystem.IsLocalBuild;
 var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
@@ -121,7 +124,34 @@ Task("Run-Unit-Tests")
     .Does(() => 
     {
         DotNetCoreTest("./Sextant.Tests/Sextant.Tests.csproj", new DotNetCoreTestSettings { Configuration = configuration, NoBuild = true }); 
-    }); 
+    });
+
+//////////////////////////////////////////////////////////////////////
+// Preview
+//////////////////////////////////////////////////////////////////////
+Task("Preview-Documentation")
+    .Does(() =>
+    {
+        Wyam(new WyamSettings
+        {
+            Recipe = "Docs",
+            Theme = "Samson",
+            OutputPath = MakeAbsolute(publishedDocs),
+            RootPath = MakeAbsolute(Directory("docs")),
+            Preview = true,
+            UpdatePackages = true,
+            Watch = true,
+            Settings = new Dictionary<string, object>
+            {
+                { "Host", "sextant.github.io" },
+                // { "LinkRoot",  BuildParameters.WebLinkRoot },
+                // { "BaseEditUrl", BuildParameters.WebBaseEditUrl },
+                // { "SourceFiles", BuildParameters.WyamSourceFiles },
+                { "Title", "Sextant" },
+                // { "IncludeGlobalNamespace", false }
+            }
+        });
+    });
 
 //////////////////////////////////////////////////////////////////////
 // Build Packages
@@ -263,6 +293,13 @@ Task("PublishRelease")
         }
 
         GitReleaseManagerClose(username, token, githubOwner, githubRepository, majorMinorPatch);
+    });
+
+Task("PublishDocumentation")
+    .IsDependentOn("BuildPackages")
+    .Does(() =>
+    {
+        
     });
 
 // TASK TARGETS
