@@ -1,4 +1,5 @@
 Title: Register Views
+Description: Explains how to register views and view models to Sextant for navigation.
 Order: 10
 ---
 
