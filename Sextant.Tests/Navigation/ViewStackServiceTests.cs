@@ -9,6 +9,10 @@ using Xunit;
 
 namespace Sextant.Tests.Navigation
 {
+    public class NavigationObject
+    {
+    }
+
     public sealed class ViewStackServiceTests
     {
         public class ThePopModalMethod
@@ -270,6 +274,38 @@ namespace Sextant.Tests.Navigation
             //    // Then
             //    fixture.ViewStackService.PageStack.FirstAsync().Wait().Should().BeEmpty();
             //}
+        }
+
+        public class ThePushPageParametersMethod
+        {
+            [Fact]
+            public async Task Should_Push_Page_With_Parameters()
+            {
+                // Given
+                var fixture = new ViewStackServiceFixture();
+
+                // When
+                await fixture.ViewStackService.PushPage<NavigationObject>(new PageViewModelMock(), new NavigationObject());
+                var result = await fixture.ViewStackService.TopPage();
+
+                // Then
+                await fixture.ViewStackService.Received().PushPage(Arg.Any<PageViewModelMock>(), Arg.Any<NavigationObject>());
+            }
+
+            [Fact]
+            public async Task Should_Push_Page_With_Parameters_Of_Type()
+            {
+                // Given
+                var fixture = new ViewStackServiceFixture();
+
+                // When
+                await fixture.ViewStackService.PushPage(new PageViewModelMock());
+                var result = await fixture.ViewStackService.TopPage();
+
+                // Then
+                result.Should().NotBeNull();
+                result.Should().BeOfType<PageViewModelMock>();
+            }
         }
 
         public class TheTopModalMethod

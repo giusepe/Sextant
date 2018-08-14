@@ -102,6 +102,11 @@ namespace Sextant
                 });
         }
 
+        public IObservable<Unit> PushModal<TParameter>(IPageViewModel modal, TParameter parameter, string contract = null)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Pushes the <see cref="IPageViewModel" /> onto the stack.
         /// </summary>
@@ -124,6 +129,15 @@ namespace Sextant
                     AddToStackAndTick(_pageStack, page, resetStack);
                     _logger.Debug($"Added page '{page.Id}' (contract '{contract}') to stack.");
                 });
+        }
+
+        public IObservable<Unit> PushPage<TParameter>(IPageViewModel page,
+                    TParameter parameter,
+                    string contract = null,
+                    bool resetStack = false,
+                    bool animate = true)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

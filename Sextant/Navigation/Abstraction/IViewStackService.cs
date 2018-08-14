@@ -4,10 +4,33 @@ using System.Reactive;
 
 namespace Sextant.Abstraction
 {
+    public interface IViewStackParameterService
+    {
+        /// <summary>
+        /// Pushes the <see cref="IPageViewModel"/> onto the stack.
+        /// </summary>
+        /// <param name="modal">The modal.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="contract">The contract.</param>
+        /// <returns></returns>
+        IObservable<Unit> PushModal<TParameter>(IPageViewModel modal, TParameter parameter, string contract = null);
+
+        /// <summary>
+        /// Pushes the <see cref="IPageViewModel"/> onto the stack.
+        /// </summary>
+        /// <param name="page">The page.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="contract">The contract.</param>
+        /// <param name="resetStack">if set to <c>true</c> [reset stack].</param>
+        /// <param name="animate">if set to <c>true</c> [animate].</param>
+        /// <returns></returns>
+        IObservable<Unit> PushPage<TParameter>(IPageViewModel page, TParameter parameter, string contract = null, bool resetStack = false, bool animate = true);
+    }
+
     /// <summary>
     /// Interface that defines a methods to interact with the navigation stack.
     /// </summary>
-    public interface IViewStackService
+    public interface IViewStackService : IViewStackParameterService
     {
         /// <summary>
         /// Gets the modal navigation stack.
@@ -64,15 +87,15 @@ namespace Sextant.Abstraction
         IObservable<Unit> PushPage(IPageViewModel page, string contract = null, bool resetStack = false, bool animate = true);
 
         /// <summary>
-        /// Returns the top page from the current navigation stack.
-        /// </summary>
-        /// <returns></returns>
-        IObservable<IPageViewModel> TopPage();
-
-        /// <summary>
         /// Returns the top modal from the current modal stack.
         /// </summary>
         /// <returns></returns>
         IObservable<IPageViewModel> TopModal();
+
+        /// <summary>
+        /// Returns the top page from the current navigation stack.
+        /// </summary>
+        /// <returns></returns>
+        IObservable<IPageViewModel> TopPage();
     }
 }
