@@ -123,13 +123,17 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 var fixture = new ViewStackServiceFixture();
-                await fixture.ViewStackService.PushPage(new PageViewModelMock());
-                await fixture.ViewStackService.PushPage(new PageViewModelMock());
-                await fixture.ViewStackService.PushPage(new PageViewModelMock());
+                fixture.ViewStackService.PushPage(new PageViewModelMock()).Subscribe();
+                fixture.ViewStackService.PushPage(new FrameViewModelMock()).Subscribe();
+                fixture.ViewStackService.PushPage(new PageViewModelMock()).Subscribe();
+                fixture.ViewStackService.PushPage(new PageViewModelMock()).Subscribe();
+                fixture.ViewStackService.TopPage().Wait().Should().BeOfType<PageViewModelMock>();
 
                 // When
+                fixture.ViewStackService.PopTo<FrameViewModelMock>().Subscribe();
 
                 // Then
+                fixture.ViewStackService.TopPage().Wait().Should().BeOfType<FrameViewModelMock>();
             }
 
             [Fact]
