@@ -39,6 +39,14 @@ namespace Sextant.Abstraction
         IObservable<Unit> PopPage(bool animate = true);
 
         /// <summary>
+        /// Pops the stack to the first instance of <see cref="TViewModel"/>.
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <returns></returns>
+        IObservable<Unit> PopTo<TViewModel>()
+                    where TViewModel : IPageViewModel;
+
+        /// <summary>
         /// Pops to root page.
         /// </summary>
         /// <returns>The to root page.</returns>
@@ -64,15 +72,15 @@ namespace Sextant.Abstraction
         IObservable<Unit> PushPage(IPageViewModel page, string contract = null, bool resetStack = false, bool animate = true);
 
         /// <summary>
-        /// Returns the top page from the current navigation stack.
-        /// </summary>
-        /// <returns></returns>
-        IObservable<IPageViewModel> TopPage();
-
-        /// <summary>
         /// Returns the top modal from the current modal stack.
         /// </summary>
         /// <returns></returns>
         IObservable<IPageViewModel> TopModal();
+
+        /// <summary>
+        /// Returns the top page from the current navigation stack.
+        /// </summary>
+        /// <returns></returns>
+        IObservable<IPageViewModel> TopPage();
     }
 }

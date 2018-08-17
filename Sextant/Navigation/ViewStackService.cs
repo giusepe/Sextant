@@ -74,6 +74,23 @@ namespace Sextant
         public IObservable<Unit> PopPage(bool animate = true) => _view.PopPage(animate);
 
         /// <summary>
+        /// Pops the stack to the first instance of <see cref="TViewModel" />.
+        /// </summary>
+        /// <typeparam name="TViewModel"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public IObservable<Unit> PopTo<TViewModel>()
+            where TViewModel : IPageViewModel
+        {
+            if (_pageStack.Value.All(vm => vm.GetType() != typeof(TViewModel)))
+            {
+                throw new InvalidOperationException($"{typeof(TViewModel).Name} not found.");
+            }
+
+            return Observable.Return(Unit.Default);
+        }
+
+        /// <summary>
         /// Pops to root page.
         /// </summary>
         /// <returns>The to root page.</returns>
@@ -130,14 +147,12 @@ namespace Sextant
         /// Returns the top modal from the current modal stack.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public IObservable<IPageViewModel> TopModal() => _modalStack.FirstAsync().Select(x => x.Last());
 
         /// <summary>
         /// Returns the top page from the current navigation stack.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public IObservable<IPageViewModel> TopPage() => _pageStack.FirstAsync().Select(x => x.Last());
 
         private static void AddToStackAndTick<T>(BehaviorSubject<IImmutableList<T>> stackSubject, T item, bool reset)

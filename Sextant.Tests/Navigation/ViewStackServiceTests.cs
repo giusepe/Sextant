@@ -116,6 +116,38 @@ namespace Sextant.Tests.Navigation
             }
         }
 
+        public class ThePopToMethod
+        {
+            [Fact]
+            public async Task Should_Pop_To_View_Model_Provided()
+            {
+                // Given
+                var fixture = new ViewStackServiceFixture();
+                await fixture.ViewStackService.PushPage(new PageViewModelMock());
+                await fixture.ViewStackService.PushPage(new PageViewModelMock());
+                await fixture.ViewStackService.PushPage(new PageViewModelMock());
+
+                // When
+
+                // Then
+            }
+
+            [Fact]
+            public async Task Should_Throw_If_Model_Not_Found()
+            {
+                // Given
+                var fixture = new ViewStackServiceFixture();
+
+                // When
+                var result = Record.Exception(() => fixture.ViewStackService.PopTo<PageViewModelMock>().Subscribe());
+
+                // Then
+                result.Should().NotBeNull();
+                result.Should().BeOfType<InvalidOperationException>();
+                result.Message.Should().Be("PageViewModelMock not found.");
+            }
+        }
+
         public class ThePushModalMethod
         {
             [Theory]
