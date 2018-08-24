@@ -87,6 +87,17 @@ namespace Sextant
                 throw new InvalidOperationException($"{typeof(TViewModel).Name} not found.");
             }
 
+            var stack = _pageStack.Value.ToList();
+
+            var popIndex = stack.Last(x => x.GetType() == typeof(TViewModel));
+
+            var index = stack.Count - stack.LastIndexOf(popIndex);
+
+            for (var i = 0; i < index; i++)
+            {
+                _view.PopPage();
+            }
+
             return Observable.Return(Unit.Default);
         }
 
