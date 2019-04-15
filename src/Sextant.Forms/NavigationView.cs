@@ -12,7 +12,7 @@ using System.Reactive.Threading.Tasks;
 using ReactiveUI;
 using Xamarin.Forms;
 
-namespace Sextant
+namespace Sextant.Forms
 {
     /// <summary>
     /// The main navigation view.

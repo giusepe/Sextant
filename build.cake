@@ -7,11 +7,13 @@ Environment.SetVariableNames();
 var packageWhitelist = new[] 
 { 
     MakeAbsolute(File("./src/Sextant/Sextant.csproj")),
+    MakeAbsolute(File("./src/Sextant.Forms/Sextant.Forms.csproj")),
 };
 
 var packageTestWhitelist = new[]
 {
     MakeAbsolute(File("./src/Sextant.Tests/Sextant.Tests.csproj")),
+    MakeAbsolute(File("./src/Sextant.Forms.Tests/Sextant.Forms.Tests.csproj")),
 };
 
 BuildParameters.SetParameters(context: Context, 
