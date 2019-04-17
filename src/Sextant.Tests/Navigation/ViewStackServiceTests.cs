@@ -98,7 +98,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 var item = await sut.ModalStack.FirstAsync();
@@ -119,7 +119,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given, When
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 await sut.PopModal();
@@ -137,7 +137,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given, When
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 var result = await sut.PopModal();
@@ -179,7 +179,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 await sut.PopPage();
@@ -198,7 +198,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 await sut.PopPage();
@@ -216,7 +216,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushPage(new PageViewModelMock());
+                await sut.PushPage(new NavigableViewModelMock());
 
                 // When
                 var result = await sut.PopPage();
@@ -257,7 +257,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushPage(new PageViewModelMock(), pages: 3);
+                await sut.PushPage(new NavigableViewModelMock(), pages: 3);
 
                 // When
                 await sut.PopToRootPage();
@@ -277,7 +277,7 @@ namespace Sextant.Tests.Navigation
                 // Given
                 int count = 0;
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushPage(new PageViewModelMock(), pages: 3);
+                await sut.PushPage(new NavigableViewModelMock(), pages: 3);
 
                 sut.View.PagePopped.Subscribe(_ =>
                 {
@@ -300,7 +300,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushPage(new PageViewModelMock(), pages: 3);
+                await sut.PushPage(new NavigableViewModelMock(), pages: 3);
                 await sut.PopToRootPage();
 
                 // When
@@ -329,7 +329,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock(), "modal", amount);
+                await sut.PushModal(new NavigableViewModelMock(), "modal", amount);
                 sut.ModalStack.FirstAsync().Wait().Count.ShouldBe(amount);
                 await sut.PopModal(amount);
 
@@ -349,14 +349,14 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 var result = await sut.TopModal();
 
                 // Then
                 result.ShouldNotBeNull();
-                result.ShouldBeOfType<PageViewModelMock>();
+                result.ShouldBeOfType<NavigableViewModelMock>();
             }
 
             /// <summary>
@@ -370,7 +370,7 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture();
 
                 // When
-                await sut.PushModal(new PageViewModelMock(), "modal");
+                await sut.PushModal(new NavigableViewModelMock(), "modal");
                 var result = await sut.ModalStack.FirstAsync();
 
                 // Then
@@ -389,10 +389,10 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture().WithView(Substitute.For<IView>());
 
                 // When
-                await sut.PushModal(new PageViewModelMock(), "modal");
+                await sut.PushModal(new NavigableViewModelMock(), "modal");
 
                 // Then
-                sut.View.Received().PushModal(Arg.Any<IPageViewModel>(), "modal");
+                sut.View.Received().PushModal(Arg.Any<IViewModel>(), "modal");
             }
 
             /// <summary>
@@ -432,7 +432,7 @@ namespace Sextant.Tests.Navigation
                 var result = await Should.ThrowAsync<ArgumentNullException>(async () => await sut.PushPage(null)).ConfigureAwait(false);
 
                 // Then
-                result.ParamName.ShouldBe("page");
+                result.ParamName.ShouldBe("viewModel");
             }
 
             /// <summary>
@@ -446,12 +446,12 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture();
 
                 // When
-                await sut.PushPage(new PageViewModelMock());
+                await sut.PushPage(new NavigableViewModelMock());
                 var result = await sut.TopPage();
 
                 // Then
                 result.ShouldNotBeNull();
-                result.ShouldBeOfType<PageViewModelMock>();
+                result.ShouldBeOfType<NavigableViewModelMock>();
             }
 
             /// <summary>
@@ -465,7 +465,7 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture();
 
                 // When
-                await sut.PushPage(new PageViewModelMock());
+                await sut.PushPage(new NavigableViewModelMock());
                 var result = await sut.PageStack.FirstAsync();
 
                 // Then
@@ -484,10 +484,10 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture().WithView(Substitute.For<IView>());
 
                 // When
-                await sut.PushPage(new PageViewModelMock());
+                await sut.PushPage(new NavigableViewModelMock());
 
                 // Then
-                sut.View.Received().PushPage(Arg.Any<IPageViewModel>(), null, false, true);
+                sut.View.Received().PushPage(Arg.Any<IViewModel>(), null, false, true);
             }
 
             /// <summary>
@@ -501,8 +501,8 @@ namespace Sextant.Tests.Navigation
                 ViewStackService sut = new ViewStackServiceFixture().WithView(Substitute.For<IView>());
 
                 // When
-                await sut.PushPage(new PageViewModelMock(), pages: 3);
-                await sut.PushPage(new PageViewModelMock(), resetStack: true);
+                await sut.PushPage(new NavigableViewModelMock(), pages: 3);
+                await sut.PushPage(new NavigableViewModelMock(), resetStack: true);
                 var result = await sut.PageStack.FirstOrDefaultAsync();
 
                 // Then
@@ -524,7 +524,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture().WithView(Substitute.For<IView>());
-                await sut.PushModal(new PageViewModelMock());
+                await sut.PushModal(new NavigableViewModelMock());
 
                 // When
                 await sut.TopModal();
@@ -542,14 +542,14 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushModal(new PageViewModelMock("1"));
-                await sut.PushModal(new PageViewModelMock("2"));
+                await sut.PushModal(new NavigableViewModelMock("1"));
+                await sut.PushModal(new NavigableViewModelMock("2"));
 
                 // When
                 var result = await sut.TopModal();
 
                 // Then
-                result.ShouldBeOfType<PageViewModelMock>();
+                result.ShouldBeOfType<NavigableViewModelMock>();
                 result.Id.ShouldBe("2");
             }
 
@@ -585,7 +585,7 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture().WithView(Substitute.For<IView>());
-                await sut.PushPage(new PageViewModelMock());
+                await sut.PushPage(new NavigableViewModelMock());
 
                 // When
                 await sut.TopPage();
@@ -603,14 +603,14 @@ namespace Sextant.Tests.Navigation
             {
                 // Given
                 ViewStackService sut = new ViewStackServiceFixture();
-                await sut.PushPage(new PageViewModelMock("1"));
-                await sut.PushPage(new PageViewModelMock("2"));
+                await sut.PushPage(new NavigableViewModelMock("1"));
+                await sut.PushPage(new NavigableViewModelMock("2"));
 
                 // When
                 var result = await sut.TopPage();
 
                 // Then
-                result.ShouldBeOfType<PageViewModelMock>();
+                result.ShouldBeOfType<NavigableViewModelMock>();
                 result.Id.ShouldBe("2");
             }
 
