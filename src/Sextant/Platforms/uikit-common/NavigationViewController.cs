@@ -28,7 +28,6 @@ namespace Sextant
         private readonly IScheduler _backgroundScheduler;
         private readonly IScheduler _mainScheduler;
         private readonly IViewLocator _viewLocator;
-        private readonly Stack<UIViewController> _navigationPages;
         private readonly Subject<IPageViewModel> _pagePopped = new Subject<IPageViewModel>();
 
         /// <summary>
@@ -45,8 +44,6 @@ namespace Sextant
             _mainScheduler = mainScheduler ?? RxApp.MainThreadScheduler;
             _backgroundScheduler = backgroundScheduler ?? RxApp.TaskpoolScheduler;
             _viewLocator = viewLocator ?? ViewLocator.Current;
-            _navigationPages = new Stack<UIViewController>();
-            _navigationPages.Push(this);
         }
 
         /// <inheritdoc />
@@ -116,7 +113,6 @@ namespace Sextant
                     {
                         var page = LocatePageFor(pageViewModel, contract);
                         SetPageTitle(page, pageViewModel.Id);
-                        _navigationPages.Push(page);
                         viewController = page;
                         return page;
                     },
@@ -146,13 +142,15 @@ namespace Sextant
                 });
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override UIViewController PopViewController(bool animated)
         {
-            var popped = _navigationPages.Pop();
-            var view = popped as IViewFor;
+            var poppedController = base.PopViewController(animated);
+
+            var view = poppedController as IViewFor;
             _pagePopped.OnNext(view?.ViewModel as IPageViewModel);
-            return base.PopViewController(animated);
+
+            return poppedController;
         }
 
         private UIViewController LocatePageFor(object viewModel, string contract)
